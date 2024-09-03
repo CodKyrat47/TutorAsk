@@ -185,8 +185,8 @@ class BookingEliminationTests(TestCase):
         settings.EMAIL_HOST = 'smtp.gmail.com'
         settings.EMAIL_PORT = 587
         settings.EMAIL_USE_TLS = True
-        settings.EMAIL_HOST_USER = 'noreply.tutorask2024@gmail.com'
-        settings.EMAIL_HOST_PASSWORD = 'ntgl zudw pvtz nsgg'
+        settings.EMAIL_HOST_USER = ''  # insert own email host user here
+        settings.EMAIL_HOST_PASSWORD = ''  # insert own email host password here
 
         self.client = Client()
         self.tutor = Tutor.objects.create(

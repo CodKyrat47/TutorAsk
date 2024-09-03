@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %} Error {% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-danger d-flex align-items-center justify-content-center" role="alert">
+        <p class="mb-0">{{ message }}</p>
+    </div>
+    <div class="text-center mt-3">
+        <a href="{% url 'home' %}" class="btn btn-primary" style="background-color: #3e50ab; border-color: #3e50ab">Torna alla home</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Modifica Recensione{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Modifica la tua Recensione</h2>
+
+    <div class="card my-4">
+        <div class="card-header">
+            <h3 class="card-title">Modifica Recensione</h3>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary" style="background-color: #3e50ab; border-color: #3e50ab">Aggiorna</button>
+                <a {% if request.GET.next %} href="{{ request.GET.next }}" {% else %} href="{% url 'reviews:tutor_reviews' review.tutor.pk %}" {% endif %} class="btn btn-secondary">Annulla</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

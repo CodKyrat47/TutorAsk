@@ -1,0 +1,242 @@
+#form-title {
+    font-family: Georgia, sans-serif;
+    color: black;
+    font-weight: normal;
+}
+
+.tutor_content {
+    padding-top: 30px;
+    padding-right: 200px;
+    padding-left: 200px;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #3e50ab;
+    text-align: center;
+}
+
+form {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #3e50ab;
+}
+
+form select,
+form input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+form button {
+    background-color: #3e50ab;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+form a {
+    color: #3e50ab;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+form a:hover {
+    text-decoration: underline;
+}
+
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.rating input[type="radio"] {
+    display: none;
+}
+
+.rating label {
+    font-size: 2em;
+    color: #ddd;
+    cursor: pointer;
+}
+
+.rating label:hover,
+.rating label:hover ~ label,
+.rating input[type="radio"]:checked ~ label {
+    color: #ffc107;
+}
+
+.tutor_cards {
+    padding-left: 200px;
+    padding-right: 200px;
+}
+
+.tutor_cards ul {
+    list-style: none;
+    padding: 0;
+}
+
+.tutor_cards ul li {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+}
+
+.tutor_cards ul li img {
+    max-width: 150px;
+    border-radius: 8px;
+    margin-right: 15px;
+    float: left;
+    padding-bottom: 20px;
+    padding-right: 20px;
+}
+
+.tutor_cards ul li h2 {
+    margin-top: 0;
+    font-size: 1.8em;
+    color: #343a40;
+}
+
+.tutor_cards ul li p {
+    margin: 5px 0;
+    clear: both;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.pagination li {
+    margin: 0 5px;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.pagination li a,
+.pagination li span {
+    display: block;
+    padding: 10px 15px;
+    background-color: #3e50ab;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.pagination li span {
+    background-color: #6c757d;
+}
+
+.star-rating {
+    display: inline-block;
+    font-size: 24px; /* Dimensione delle stelle */
+    color: #ccc; /* Colore delle stelle vuote */
+    position: relative;
+}
+
+.star-rating .star {
+  display: inline-block;
+  position: relative;
+}
+
+.star-rating .star::before {
+    content: "\2605"; /* Unicode per la stella piena */
+    color: #ffcc00; /* Colore delle stelle piene */
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.star-rating .star-half::before {
+    width: 50%;
+}
+
+.star-rating .star.full {
+    color: #ffcc00; /* Colore delle stelle piene */
+}
+
+.star-rating .star.empty {
+    color: #ccc; /* Colore delle stelle vuote */
+}
+
+.detail {
+    text-align: right;
+}
+
+.description_title {
+    color: #3e50ab;
+    font-weight: bold;
+    font-family: Cambria, serif;
+    font-size: large;
+}
+
+.description {
+    font-family: Cambria, serif;
+    font-size: large;
+}
+
+#empty-form {
+    text-align: center;
+}
+
+@media (max-width: 1024px) {
+    #form-title {
+        padding-top: 20px;
+    }
+
+    .tutor_content {
+        padding-top: 30px;
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+
+    .tutor_cards {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .pagination li a,
+    .pagination li span {
+        padding: 5px 10px;
+    }
+}

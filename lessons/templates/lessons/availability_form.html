@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">{{ title }}</h2>
+  <form method="post" class="needs-validation" novalidate>
+    {% csrf_token %}
+  {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="form-group">
+      {{ form.day.label_tag }}
+      {{ form.day }}
+    </div>
+    <div class="form-group">
+      {{ form.start.label_tag }}
+      {{ form.start }}
+    </div>
+    <div class="form-group">
+      {{ form.end.label_tag }}
+      {{ form.end }}
+    </div>
+    <button type="submit" class="btn btn-primary" style="background-color: #3e50ab; border-color: #3e50ab">Salva</button>
+    <a href="{% url 'lessons:tutor_dashboard' %}" class="btn btn-secondary">Annulla</a>
+  </form>
+</div>
+{% endblock %}

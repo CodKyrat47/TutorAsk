@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block title %}Tutor Dashboard{% endblock %}
+{% block styles %}
+    <style>
+        body {
+            padding-top: 80px;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .table th, .table td {
+            text-align: center;
+        }
+        .icon-btn {
+            border: none;
+            background: none;
+            padding: 0;
+            cursor: pointer;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Gestione lezioni per {{ tutor.user.get_full_name }}</h1>
+
+    <a id="first-btn" href="{% url 'lessons:availability_create' %}">
+        <button class="btn btn-outline-dark btn-block">Aggiungi Disponibilità</button>
+    </a>
+
+    <div class="modal fade" id="addAvailabilityModal" tabindex="-1" aria-labelledby="addAvailabilityModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAvailabilityModalLabel">Aggiungi Disponibilità</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'home' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="day">Giorno</label>
+                            <input type="date" class="form-control" id="day" name="day" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="start">Inizio</label>
+                            <input type="time" class="form-control" id="start" name="start" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="end">Fine</label>
+                            <input type="time" class="form-control" id="end" name="end" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                            <button type="submit" class="btn btn-primary">Salva</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mt-4">Disponibilità Future</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Giorno</th>
+                    <th>Inizio</th>
+                    <th>Fine</th>
+                    <th>Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for availability in future_availabilities %}
+                    <tr>
+                        <td>{{ availability.day }}</td>
+                        <td>{{ availability.start }}</td>
+                        <td>{{ availability.end }}</td>
+                        <td>
+                            <a href="{% url 'lessons:availability_edit' availability.pk %}" class="icon-btn" title="Modifica">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'lessons:availability_delete' availability.pk %}" class="icon-btn" title="Elimina">
+                                <i class="fas fa-trash-alt text-danger"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">Nessuna disponibilità presente.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2 class="mt-4">Lezioni Future</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Studente</th>
+                    <th>Giorno</th>
+                    <th>Inizio</th>
+                    <th>Fine</th>
+                    <th>Materia</th>
+                    <th>Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in future_bookings %}
+                    <tr>
+                        <td><a style="color: #35383c" href="{% url 'reviews:student_reviews' booking.student.user.pk %}">{{ booking.student.user.get_full_name }}</a></td>
+                        <td>{{ booking.booked_for.day }}</td>
+                        <td>{{ booking.booked_for.start }}</td>
+                        <td>{{ booking.booked_for.end }}</td>
+                        <td>{{ booking.subject.name }}</td>
+                        <td>
+                            <a href="{% url 'lessons:booking_delete' booking.pk %}" class="icon-btn" title="Cancella">
+                                <i class="fas fa-trash-alt text-danger"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6">Nessuna prenotazione presente.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2 class="mt-4">Lezioni Passate</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Studente</th>
+                    <th>Giorno</th>
+                    <th>Inizio</th>
+                    <th>Fine</th>
+                    <th>Materia</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in past_bookings %}
+                    <tr>
+                        <td><a style="color: #35383c" href="{% url 'reviews:student_reviews' booking.student.user.pk %}">{{ booking.student.user.get_full_name }}</a></td>
+                        <td>{{ booking.booked_for.day }}</td>
+                        <td>{{ booking.booked_for.start }}</td>
+                        <td>{{ booking.booked_for.end }}</td>
+                        <td>{{ booking.subject.name }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">Nessuna prenotazione presente.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

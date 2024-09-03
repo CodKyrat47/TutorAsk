@@ -8,7 +8,7 @@ Il primo può creare delle disponibilità che verranno poi prenotate dagli stude
 Gli studenti possono scrivere recensioni in merito ai tutor con i quali hanno sostenuto delle lezioni.
 Le conferme delle varie operazioni sono seguite da un invio via email agli utenti interessati.
 Per questo è essenziale configurare le proprie credenziali SMTP
-"""python
+```python
 EMAIL_HOST_USER = 'user'
 EMAIL_HOST_PASSWORD = 'password'
-'''
+```

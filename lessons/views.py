@@ -241,7 +241,11 @@ class TutorListView(ListView):
             if max_price:
                 queryset = queryset.filter(price_per_hour__lte=int(max_price))
             if day:
-                queryset = queryset.filter(tutor_availabilities__day=day)
+                selected_day = datetime.strptime(day, '%Y-%m-%d').date()
+                if selected_day > current_date:
+                    queryset = queryset.filter(tutor_availabilities__day=selected_day, tutor_availabilities__bookings__isnull=True)
+                else:
+                    queryset = queryset.none()
             queryset = queryset.annotate(relevance=Value(0, output_field=IntegerField()))
         elif recommended:
             # Condizione per assegnare lo score relativo al tutor

@@ -227,7 +227,7 @@ def delete_profile_confirm(request):
             # Recupera i tutor che hanno ricevuto una recensione dallo studente
             reviews = Review.objects.filter(student__user=user)
             tutors = set(reviews.values_list('tutor', flat=True))
-            # Recupera gli studenti che hanno votato le recensioni dello studente
+            # Recupera gli studenti che hanno ricevuto un voto sulle proprie recensioni dallo studente
             reviews = ReviewVote.objects.filter(student__user=user).values_list('review', flat=True)
             students = set(Student.objects.filter(student_reviews__in=reviews))
             send_profile_elimination(user)

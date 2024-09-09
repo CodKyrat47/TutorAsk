@@ -19,7 +19,7 @@ class Availability(models.Model):
         ]
 
     def clean(self):
-        # Controlla che le date delle lezioni siano corenti
+        # Controlla che le date delle lezioni siano corrette
         if self.day is None or self.start is None or self.end is None:
             raise ValidationError("I campi sono obbligatori")
 

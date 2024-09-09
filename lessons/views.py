@@ -204,13 +204,8 @@ class TutorListView(ListView):
         # Subquery per trovare le disponibilità future non prenotate per ogni tutor
         available_availabilities_subquery = Availability.objects.filter(
             tutor=OuterRef('pk'),
-            day__gt=current_date
-        ).exclude(
-            id__in=Subquery(
-                Booking.objects.filter(
-                    booked_for=OuterRef('pk')
-                ).values('booked_for')
-            )
+            day__gt=current_date,
+            bookings__isnull=True
         ).values('tutor')
 
         # Conteggio delle disponibilità future non prenotate e annotamento sia del numero sia della loro esistenza

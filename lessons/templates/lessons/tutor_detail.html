@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Info Tutor {% endblock %}
+{% block styles %}
+   <link href="{% static 'css/tutor_detail.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="container tutor_content">
+        <h1 id="page-title">Dettagli tutor</h1>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="tutor_card">
+                    <ul>
+                        <li>
+                            <img id="profile-picture" src="{{ tutor.profile_picture.url }}" alt="Immagine Profilo">
+                            <h2>{{ tutor.user.first_name }} {{ tutor.user.last_name }}</h2>
+                            <span class="description"><img id="birth-icon" src="{% static 'imgs/birth_date.png' %}" alt="Bith date icon">{{ tutor.user.birth_date }}</span>
+                            <p><span class="description_title">Località: </span><span class="description">{{ tutor.location.name }}</span></p>
+                            <p><span class="description_title">Materie: </span>
+                                {% for subject in tutor.subjects.all %}
+                                    <span class="description">{{ subject.name }}</span>{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </p>
+                            <p>
+                                <span class="description_title">Bio: </span>
+                                <span class="description">{{ tutor.bio }}</span>
+                            </p>
+                            <span class="description_title">Valutazione: </span>
+                            <div class="star-rating" data-rating="{{ tutor.rating }}">
+                              <span class="star" data-value="1">&#9733;</span>
+                              <span class="star" data-value="2">&#9733;</span>
+                              <span class="star" data-value="3">&#9733;</span>
+                              <span class="star" data-value="4">&#9733;</span>
+                              <span class="star" data-value="5">&#9733;</span>
+                            </div>
+                            <p><span class="description_title">Tariffa: </span><span class="description">{{ tutor.price_per_hour }} € / ora</span></p>
+                            <p><span class="description_title">Email: </span><span class="description">{{ tutor.user.email }}</span></p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-6 col-sm-12">
+                <div class="availabilities-dates">
+                    <h2 id="availability-title">Disponibilità</h2>
+                    <div class="list-group">
+                        {% for availability in available_availabilities %}
+                            <span class="list-group-item list-group-item-action"><img id="date-icon" src="{% static 'imgs/date.png' %}" alt="Calendar icon">{{ availability.day }} <img id="time-icon" src="{% static 'imgs/time.png' %}" alt="Time icon">{{ availability.start }} - {{ availability.end }}</span>
+                        {% empty %} Nessuna disponibilità al momento. Riprova più tardi
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% if available_availabilities and request.user.is_student %}
+                    <div class="lessons">
+                        <h2 id="availability-title">Prenota una lezione</h2>
+                        <div class="form-container">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="subject" style="font-family: Georgia, sans-serif;">Materia</label>
+                                    <select class="form-control" id="subject" name="subject">
+                                        {% for subj in tutor.subjects.all %}
+                                            <option value="{{ subj.id }}">{{ subj.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="availability" style="font-family: Georgia, sans-serif;">Data e Ora</label>
+                                    <select class="form-control" id="availability" name="availability">
+                                        {% for availability in available_availabilities %}
+                                            <option value="{{ availability.id }}">{{ availability.day }} | {{ availability.start }} - {{ availability.end }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="btn-book">Prenota</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div id="review">
+        {% if request.user.is_student %}
+            Vuoi scrivere una recensione o leggerne altre riguardo a questo tutor? <a href="{% url 'reviews:tutor_reviews' tutor.pk %}">Clicca qui</a>
+        {% else %}
+            Vuoi leggere le recensioni riguardanti questo tutor? <a href="{% url 'reviews:tutor_reviews' tutor.pk %}">Clicca qui</a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ratings = document.querySelectorAll('.star-rating');
+            ratings.forEach(ratingElement => {
+                const rating = parseFloat(ratingElement.getAttribute('data-rating').replace(',', '.'));
+                const stars = ratingElement.querySelectorAll('.star');
+                const fullStars = Math.floor(rating);
+                const halfStar = rating % 1 >= 0.5;
+                stars.forEach((star, index) => {
+                    if (index < fullStars) {
+                        star.classList.add('full');
+                    } else if (index === fullStars && halfStar) {
+                        star.classList.add('star-half');
+                    } else {
+                        star.classList.add('empty');
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Conferma Eliminazione Prenotazione{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    Conferma Eliminazione Prenotazione
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Sei sicuro di voler eliminare la prenotazione per la lezione di <strong>{{ booking.subject.name }}</strong>
+                        con <strong>{% if request.user.is_student %}{{ booking.booked_for.tutor.user.get_full_name }}{% elif request.user.is_tutor %}{{ booking.student.user.get_full_name }}
+                        {% endif %}</strong> fissata per il giorno <strong>{{ booking.booked_for.day }}</strong>?
+                    </p>
+
+                    <p class="card-text text-danger">
+                        Questa azione non può essere annullata.
+                    </p>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Conferma Eliminazione</button>
+                        {% if request.user.is_student %}
+                            <a href="{% url 'users:student_profile' %}" class="btn btn-secondary">Annulla</a>
+                        {% elif request.user.is_tutor %}
+                            <a href="{% url 'lessons:tutor_dashboard' %}" class="btn btn-secondary">Annulla</a>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

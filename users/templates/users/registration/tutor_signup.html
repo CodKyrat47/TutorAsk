@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %} Sign Up {% endblock %}
+{% block styles %}
+    <link href="{% static 'css/signup.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div id="container">
+    <h2 id="form-title" class="desc-title">Registrazione tutor</h2>
+    <div id="form-container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div id="button_container">
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

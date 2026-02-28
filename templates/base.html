@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'imgs/logo.png' %}" type="image/png">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'css/home.css' %}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% block styles %}{% endblock %}
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand">
+            <img src="{% static 'imgs/logo.png' %}" width="20" height="30" class="d-inline-block align-top" alt="">
+             TutorAsk
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'lessons:tutor_list' %}">Trova tutor</a>
+                </li>
+                <li class="nav-item">
+                    {% if user.is_student %}
+                        <a class="nav-link" href="{% url 'users:student_profile' %}">Profilo</a>
+                    {% elif user.is_tutor %}
+                        <a class="nav-link" href="{% url 'users:tutor_profile_detail' %}">Profilo</a>
+                    {% elif user.is_superuser %}
+                        <a class="nav-link" href="{% url 'admin:index' %}">Pannello di controllo</a>
+                    {% else %}
+                        <a class="nav-link" href="{% url 'users:tutor_signup' %}">Diventa tutor</a>
+                    {% endif %}
+                </li>
+            </ul>
+            {% if user.is_authenticated %}
+                <a id="first-btn" href="{% url 'users:logout' %}">
+                    <button class="btn btn-outline-light btn-block">Logout</button>
+                </a>
+            {% else %}
+                <a id="first-btn" href="{% url 'users:login' %}">
+                    <button class="btn btn-outline-light btn-block">Log In</button>
+                </a>
+                <a id="second-btn" href="{% url 'users:user_signup' %}">
+                    <button class="btn btn-outline-light btn-block">Sign Up</button>
+                </a>
+            {% endif %}
+        </div>
+    </nav>
+
+    {% if messages %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            {% for message in messages %}
+                Swal.fire({
+                    icon: '{{ message.tags }}',
+                    title: '{{ message }}',
+                    showConfirmButton: false,
+                    timer: 3000,  // Il popup si chiude dopo 3 secondi
+                    timerProgressBar: true
+                });
+            {% endfor %}
+        });
+    </script>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    {% block script %}
+    {% endblock %}
+
+</body>
+</html>

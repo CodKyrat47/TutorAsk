@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% block title %} Profilo studente {% endblock %}
+{% block styles %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> {% endblock %}
+{% block content %}
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <h1 class="mb-4">Il mio profilo</h1>
+
+        <div class="card mb-4">
+          <div class="card-header">Informazioni profilo</div>
+          <div class="card-body">
+            <form method="post">
+              {% csrf_token %}
+
+              <div class="form-group mb-3">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" value="{{ user.username }}" disabled>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" value="{{ user.email }}" disabled>
+              </div>
+
+              <div class="form-group mb-3">
+                {{ form.first_name|as_crispy_field }}
+              </div>
+
+              <div class="form-group mb-3">
+                {{ form.last_name|as_crispy_field }}
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="birth_date">Data di nascita</label>
+                <input type="text" class="form-control" id="birth_date" value="{{ user.birth_date }}" disabled>
+              </div>
+
+              <div class="form-group mb-3">
+                {{ form.password|as_crispy_field }}
+              </div>
+
+              <div class="form-group mb-3">
+                {{ form.password_confirm|as_crispy_field }}
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="background-color: #3e50ab; border-color: #3e50ab">Aggiorna profilo</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">La mia reputazione</h5>
+            <p class="card-text" style="text-align: center; font-size: 50px">{{ reputation_score }}/100</p>
+            <a href="{% url 'reviews:student_reviews' user.pk %}" class="btn btn-outline-dark">Le mie recensioni</a>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header">Prossime lezioni</div>
+          <ul class="list-group list-group-flush">
+            {% for booking in upcoming_bookings %}
+              <li class="list-group-item">
+                  {{ booking.booked_for.day }} | {{ booking.booked_for.start }} - {{ booking.booked_for.end }} |
+                  <a style="color: #2f3337" href="{% url 'lessons:tutor_detail' booking.booked_for.tutor.pk %}"> {{ booking.booked_for.tutor.user.get_full_name }}</a>
+                   | <a style="color: #2f3337" href="{% url 'lessons:tutor_list' %}?location=&subject={{ booking.subject }}&max_price=">{{ booking.subject }}</a>
+                <a href="{% url 'lessons:booking_delete' booking.pk %}" class="position-absolute text-danger" style="bottom: 10px; right: 10px;" title="Cancella">
+                    <i class="fas fa-trash-alt text-danger"></i>
+                </a>
+              </li>
+            {% empty %}
+              <li class="list-group-item">Nessuna lezione da sostenere</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header">Lezioni passate</div>
+          <ul class="list-group list-group-flush">
+            {% for booking in past_bookings %}
+              <li class="list-group-item">
+                  {{ booking.booked_for.day }} | {{ booking.booked_for.start }} - {{ booking.booked_for.end }} |
+                  <a style="color: #2f3337" href="{% url 'lessons:tutor_detail' booking.booked_for.tutor.pk %}"> {{ booking.booked_for.tutor.user.get_full_name }}</a>
+                   | <a style="color: #2f3337" href="{% url 'lessons:tutor_list' %}?location=&subject={{ booking.subject }}&max_price=">{{ booking.subject }}</a>
+              </li>
+            {% empty %}
+              <li class="list-group-item">Non hai ancora sostenuto lezioni</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="text-center mb-4">
+          <a href="{% url 'users:delete_profile_confirm' %}" class="btn btn-danger">Elimina Profilo</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+{% endblock %}

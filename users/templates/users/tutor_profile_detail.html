@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %} Profilo Tutor {% endblock %}
+{% block styles %}
+    <style>
+        .star-rating {
+            display: inline-block;
+            font-size: 24px;
+            color: #ccc;
+            position: relative;
+        }
+
+        .star-rating .star {
+            display: inline-block;
+            position: relative;
+        }
+
+        .star-rating .star::before {
+            content: "\2605";
+            color: #ffcc00;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .star-rating .star-half::before {
+            width: 50%;
+        }
+
+        .star-rating .star.full {
+            color: #ffcc00;
+        }
+
+        .star-rating .star.empty {
+            color: #ccc;
+        }
+
+        .description {
+            font-weight: bolder;
+            color: #3e50ab;
+        }
+
+        .profile-img-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto; /* Centra il contenitore dell'immagine */
+            overflow: hidden; /* Nasconde qualsiasi parte dell'immagine che eccede il contenitore */
+            border-radius: 50%; /* Rende l'immagine circolare */
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Garantisce che l'immagine copra tutto il contenitore mantenendo le proporzioni */
+        }
+
+        @media (max-width: 768px) {
+            .profile-img-container {
+                width: 100px;
+                height: 100px;
+            }
+
+            .card {
+                margin-bottom: 20px;
+            }
+
+            .container {
+                padding-top: 30px;
+            }
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container mt-4">
+        <h1 class="text-center">Il mio profilo</h1>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <div class="profile-img-container">
+                            <img src="{{ object.profile_picture.url }}" alt="Profile Picture" class="profile-img">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <p><span class="description">Username: </span><span>{{ object.user.username }}</span></p>
+                        <p><span class="description">Nome e cognome: </span><span>{{ object.user.first_name }} {{ object.user.last_name }}</span></p>
+                        <p><span class="description">Email: </span><span>{{ object.user.email }}</span></p>
+                        <p><span class="description">Data di nascita: </span><span>{{ object.user.birth_date }}</span></p>
+                        <span class="description">Rating:</span>
+                        <p class="star-rating" data-rating="{{ object.rating }}">
+                            <span class="star" data-value="1">&#9733;</span>
+                            <span class="star" data-value="2">&#9733;</span>
+                            <span class="star" data-value="3">&#9733;</span>
+                            <span class="star" data-value="4">&#9733;</span>
+                            <span class="star" data-value="5">&#9733;</span>
+                        </p>
+                        <p><span class="description">Bio: </span><span>{{ object.bio }}</span></p>
+                        <p><span class="description">Materie insegnate: </span><span>{{ object.subjects.all|join:", " }}</span></p>
+                        <p><span class="description">Località: </span><span>{{ object.location }}</span></p>
+                        <p><span class="description">Prezzo: </span><span>{{ object.price_per_hour }} € / ora</span></p>
+                        <a href="{% url 'lessons:tutor_dashboard' %}" class="btn btn-outline-dark mb-2">Gestisci Lezioni</a>
+                        <a href="{% url 'users:tutor_profile_edit' %}" class="btn btn-outline-dark mb-2">Modifica Credenziali</a>
+                        <a href="{% url 'reviews:tutor_reviews' object.pk %}" class="btn btn-outline-primary mb-2">Recensioni</a>
+                        <a href="{% url 'users:delete_profile_confirm' %}" class="btn btn-outline-danger mb-2">Elimina Profilo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ratings = document.querySelectorAll('.star-rating');
+            ratings.forEach(ratingElement => {
+                const rating = parseFloat(ratingElement.getAttribute('data-rating').replace(',', '.'));
+                const stars = ratingElement.querySelectorAll('.star');
+                const fullStars = Math.floor(rating);
+                const halfStar = rating % 1 >= 0.5;
+                stars.forEach((star, index) => {
+                    if (index < fullStars) {
+                        star.classList.add('full');
+                    } else if (index === fullStars && halfStar) {
+                        star.classList.add('star-half');
+                    } else {
+                        star.classList.add('empty');
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

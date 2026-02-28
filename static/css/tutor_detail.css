@@ -1,0 +1,170 @@
+#page-title {
+    font-family: Georgia, sans-serif;
+    color: black;
+    font-weight: normal;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.tutor_content {
+    padding-top: 30px;
+    padding-right: 15%;
+    padding-left: 15%;
+}
+
+.tutor_card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.tutor_card ul li {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#profile-picture {
+    max-width: 150px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+#birth-icon, #date-icon, #time-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.tutor_card ul li h2 {
+    margin-top: 0;
+    font-size: 1.8em;
+    color: #343a40;
+}
+
+.tutor_card ul li p {
+    margin: 5px 0;
+    text-align: center;
+}
+
+.star-rating {
+    display: inline-block;
+    font-size: 24px;
+    color: #ccc;
+    position: relative;
+}
+
+.star-rating .star {
+    display: inline-block;
+    position: relative;
+}
+
+.star-rating .star::before {
+    content: "\2605";
+    color: #ffcc00;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.star-rating .star-half::before {
+    width: 50%;
+}
+
+.star-rating .star.full {
+    color: #ffcc00;
+}
+
+.star-rating .star.empty {
+    color: #ccc;
+}
+
+.description_title {
+    color: #3e50ab;
+    font-weight: bold;
+    font-family: Cambria, serif;
+    font-size: large;
+}
+
+.description {
+    font-family: Cambria, serif;
+    font-size: large;
+}
+
+.availabilities-dates {
+    text-align: center;
+    padding-top: 10px;
+}
+
+.list-group {
+    margin: 0 auto;
+    max-width: 800px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+
+.lessons {
+    margin: 0 auto;
+    max-width: 600px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+#btn-book {
+    background-color: #3e50ab;
+    border-color: #3e50ab;
+}
+
+#review {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .tutor_content {
+        padding-top: 60px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .tutor_card ul li {
+        padding: 10px;
+        text-align: left;
+    }
+
+    #profile-picture {
+        max-width: 100px;
+        margin-bottom: 10px;
+    }
+
+    .list-group {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .lessons {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .tutor_content {
+        padding-right: 5%;
+        padding-left: 5%;
+    }
+
+    .tutor_card ul li {
+        padding: 15px;
+    }
+}

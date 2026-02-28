@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+
+    <div class="container container-desc mt-5 pt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="description">
+                    <h2 class="desc-title">Benvenuto/a su TutorAsk</h2>
+                    <p class="site-description">Con <em>TutorAsk</em>, il miglioramento delle tue competenze è a portata di mano.
+                        Prenota lezioni con tutor qualificati e dedicati in modo semplice e veloce,
+                        e raggiungi i tuoi obiettivi educativi senza stress.<br>
+                        Cosa aspetti? Inizia subito la tua ricerca!
+                    </p>
+                    <a class="btn btn-dark btn-lg" href="{% url 'lessons:tutor_list' %}">Trova tutor</a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <img src="{% static 'imgs/prova.jpg' %}" alt="Foto" class="photo">
+            </div>
+        </div>
+    </div>
+
+    <div class="list-view">
+        {% if subjects %}
+            <h2 class="desc-title list-title">Materie</h2>
+            <div class="row list">
+                {% for subject in subjects %}
+                    <div class="col-md-3">
+                        <p><a href="{% url 'lessons:tutor_list' %}?location=&subject={{ subject }}&max_price=" style="color: black; text-decoration: none">{{ subject }}</a></p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if locations %}
+            <h2 class="desc-title list-title">Località</h2>
+            <div class="row list">
+                {% for location in locations %}
+                    <div class="col-md-3">
+                        <p><a href="{% url 'lessons:tutor_list' %}?location={{ location }}&subject=&max_price=" style="color: black; text-decoration: none">{{ location }}</a></p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="footer">
+        <img src="{% static 'imgs/logo.png' %}" width="15" height="20" class="d-inline-block align-top" alt="">
+        Copyright &copy; 2024 TutorAsk
+    </div>
+
+    {% block script %}
+    {% endblock %}
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block title %} Sign Up {% endblock %}
+
+{% block styles %}
+   <link href="{% static 'css/signup.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="desc-title">Scegli il tipo di utente</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-5 mb-5 ml-3 mr-3">
+                <div class="card text-center text-white bg-dark">
+                    <img src="{% static 'imgs/student.jpg' %}" class="card-img-top" alt="Studente">
+                    <div class="card-body">
+                        <h5 class="card-title">Registrati come Studente</h5>
+                        <p class="card-text">Accedi alle lezioni e cerca il tuo tutor ideale<br>
+                        Età minima: 14 anni</p>
+                        <a href="{% url 'users:student_signup' %}" class="btn btn-danger">Registrati</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 ml-3 mr-3">
+                <div class="card text-center text-white bg-dark">
+                    <img src="{% static 'imgs/tutor.jpg' %}" class="card-img-top" alt="Tutor">
+                    <div class="card-body">
+                        <h5 class="card-title">Registrati come Tutor</h5>
+                        <p class="card-text">Insegna le tue competenze quando puoi<br>
+                        Età minima: 18 anni</p>
+                        <a href="{% url 'users:tutor_signup' %}" class="btn btn-success">Registrati</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

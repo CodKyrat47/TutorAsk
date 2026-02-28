@@ -1,0 +1,73 @@
+.desc-title {
+    font-family: Georgia, sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    padding-bottom: 20px;
+    text-align: center;
+}
+.card {
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: scale(1.05);
+}
+.card img {
+    max-height: 380px;
+    object-fit: cover;
+}
+.container {
+    padding-top: 10px;
+}
+#form-title {
+    font-family: Georgia, sans-serif;
+    text-align: left;
+    font-weight: normal;
+}
+#container {
+    padding: 20px;
+    margin: 0 auto; /* Centra il container orizzontalmente */
+    max-width: 700px; /* Imposta una larghezza massima per dispositivi più grandi */
+}
+#form-container {
+    border: 2px solid black;
+    background: #e3f2e1;
+    border-radius: 15px;
+    padding: 10px;
+}
+li {
+    color: black;
+}
+small {
+    color: black;
+}
+label {
+    font-size: large;
+    color: #3e50ab;
+    font-weight: bold;
+}
+#button_container {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#hint_id_username {
+    color: black !important;
+}
+#hint_id_password2 {
+    color: black !important;
+}
+.btn-primary {
+    background-color: #3e50ab;
+    border: 2px solid black;
+}
+.btn-primary:hover {
+    background-color: #6f81de;
+}
+@media (max-width: 768px) {
+    .container {
+        padding: 70px 50px 50px;
+    }
+    #container {
+        padding: 70px 50px 50px;
+    }
+}

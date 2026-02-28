@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% block title %} Logout {% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/logout.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="message">
+            <h1>Logout effettuato</h1>
+            <p>Hai effettuato il logout con successo</p>
+            <p><a href="{% url 'users:login' %}">Accedi di nuovo</a></p>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Conferma Eliminazione Recensione{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    Conferma Eliminazione Recensione
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Sei sicuro di voler eliminare la tua recensione per il tutor <strong>{{ review.tutor.user.get_full_name }}</strong>?
+                    </p>
+                    <p><strong>Rating:</strong> {{ review.rating }}</p>
+                    <p><strong>Commento:</strong>{% if review.comment == "" %} Nessun commento{% else %} {{ review.comment }}{% endif %}</p>
+                    <p class="card-text text-danger">
+                        Questa azione non può essere annullata.
+                    </p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Conferma Eliminazione</button>
+                        <a {% if request.GET.next %} href="{{ request.GET.next }}" {% else %} href="{% url 'reviews:tutor_reviews' review.tutor.pk %}" {% endif %} class="btn btn-secondary">Annulla</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

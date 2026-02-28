@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block title %}Tutor Reviews{% endblock %}
+{% block styles %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> {% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">{% if request.user.pk == tutor.user.pk %}Recensioni sul mio conto{% else %}Recensioni per <a style="text-decoration: none; color: #212529" href="{% url 'lessons:tutor_detail' tutor.user.pk %}">{{ tutor.user.get_full_name }}{% endif %}</a></h2>
+
+    {% if form and form != 'tutor' %}
+        <div class="card my-4">
+            <div class="card-header">
+                <h3 class="card-title">Lascia una Recensione</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary" style="background-color: #3e50ab; border-color: #3e50ab">Invia</button>
+                </form>
+            </div>
+        </div>
+    {% elif form is None%}
+        <div class="alert alert-warning">
+            {{ info }}
+        </div>
+    {% endif %}
+
+    <hr>
+
+    <h3 class="my-4">Tutte le Recensioni</h3>
+    <div>
+        {% for review in reviews %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title"><span class="text-muted"><a style="text-decoration: none; color: #6f777f" href="{% url 'reviews:student_reviews' review.student.user.pk %}">{% if review.student.user.id == request.user.id %}Tu{% else %}{{ review.student.user.get_full_name }}{% endif %}</a> ({{ review.rating }}/5)</span></h5>
+                    <p class="card-text">{{ review.comment }}</p>
+                    <p class="card-text"><small class="text-muted">{{ review.created_at }}</small></p>
+
+                    <!-- Pulsanti Like e Dislike -->
+                    <form method="post" action="{% url 'reviews:vote_review' review.pk 1 %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-success btn-sm {% if request.user.id in user_likes|get_item:review.id %}active{% endif %}">
+                            👍 Like
+                        </button>
+                        <span>{{ review.helpful_count }}</span>
+                    </form>
+                    <form method="post" action="{% url 'reviews:vote_review' review.pk 0 %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger btn-sm {% if request.user.id in user_dislikes|get_item:review.id %}active{% endif %}">
+                            👎 Dislike
+                        </button>
+                        <span>{{ review.useless_count }}</span>
+                    </form>
+                    {% if review.student.user.id == request.user.id %}
+                        <a href="{% url 'reviews:review_update' review.pk %}?next={{ request.path }}" class="position-absolute text-primary" style="bottom: 10px; right: 40px;" title="Modifica Recensione">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{% url 'reviews:delete_review' review.pk %}?next={{ request.path }}" class="position-absolute text-danger" style="bottom: 10px; right: 10px;" title="Elimina Recensione">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">Non ci sono ancora recensioni.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
